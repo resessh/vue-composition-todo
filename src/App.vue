@@ -1,16 +1,37 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
+    <todo-register />
+    <todo-list />
   </div>
 </template>
 
+<script lang="ts">
+import { createComponent, reactive, ref, provide } from '@vue/composition-api';
+import TodoRegister from '@/components/TodoRegister.vue';
+import TodoList from '@/components/TodoList.vue';
+import TodoContainer from '@/use/todos';
+import { Todo } from '@/types/app';
+
+export default createComponent({
+  name: 'App',
+  components: {
+    TodoRegister,
+    TodoList,
+  },
+  setup() {
+    const { state, addItem } = TodoContainer.Provide();
+
+    return {
+      items: state.items,
+      addItem,
+    };
+  },
+});
+</script>
+
 <style lang="scss">
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
